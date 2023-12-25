@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  frontend:
+    image: "${DOCKER_IMAGE}"
+    ports:
+      - "80:80"
+    volumes:
+      - "${PWD}:/app"
+    env_file:
+      - .env
