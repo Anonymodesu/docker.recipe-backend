@@ -7,15 +7,15 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
-# set working directory
-WORKDIR /app
-
 # install app dependencies
 COPY requirements.txt ./
 RUN pip install -r requirements.txt --no-cache-dir
 
 # add app
-COPY src ./src/
+COPY src /src
 
-CMD ["flask", "run", "--debug", "--host=0.0.0.0"]
+# set working directory
+WORKDIR /src
+
+CMD ["flask", "run"]
 
