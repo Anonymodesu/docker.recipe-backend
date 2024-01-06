@@ -1,10 +1,19 @@
 version: "3.9"
 services:
-  frontend:
+  backend:
     image: "${DOCKER_IMAGE}"
     ports:
       - "80:80"
     volumes:
-      - "${PWD}:/app"
+      - "${PWD}/src:/src"
     env_file:
-      - .env
+      - .env.backend
+      - .env.db
+    command: "python init_db.py && flask run --debug --host=0.0.0.0"
+
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env.db
