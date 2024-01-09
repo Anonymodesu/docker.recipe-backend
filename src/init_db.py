@@ -8,7 +8,7 @@ import backoff
 import psycopg
 
 
-@backoff.on_exception(backoff.expo, psycopg.OperationalError, max_tries=5)
+@backoff.on_exception(backoff.constant, psycopg.OperationalError, max_tries=20)
 def get_db_connection(
     postgres_host: str,
     database: str,
@@ -107,7 +107,7 @@ def init_db(csv_file: str, postgres_host: str, database: str, username: str, pas
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
 
-    csv_file = os.environ["RECIPES_CSV"]
+    csv_file = os.environ["INIT_RECIPES_CSV"]
     postgres_host = os.environ["POSTGRES_HOST"]
     database = os.environ["POSTGRES_DB"]
     username = os.environ["POSTGRES_USER"]

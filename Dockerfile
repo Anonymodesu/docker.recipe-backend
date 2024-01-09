@@ -17,5 +17,5 @@ COPY src /src
 # set working directory
 WORKDIR /src
 
-CMD ["flask", "run"]
+CMD ["./docker-entrypoint.sh"]
 
