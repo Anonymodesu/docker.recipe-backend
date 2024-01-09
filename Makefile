@@ -23,7 +23,8 @@ run:
 
 test:
 	DOCKER_IMAGE=$(DOCKER_IMAGE_FULL) \
-	docker compose -f docker-compose.test.yml up \
+	docker compose -f docker-compose.yml -f docker-compose.test.yml up \
+		--build \
 		--remove-orphans \
 		--force-recreate \
 		--renew-anon-volumes \
@@ -38,5 +39,5 @@ check-lint:
 .PHONY: build check-lint clean lint run test
 
 clean:
-	-docker rmi $(DOCKER_IMAGE_FULL) $(DOCKER_IMAGE_LATEST)
+	-docker rmi -f $(DOCKER_IMAGE_FULL) $(DOCKER_IMAGE_LATEST)
 	-rm $(TIMESTAMP_FILE)
