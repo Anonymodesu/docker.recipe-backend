@@ -7,15 +7,14 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
-# install app dependencies
-COPY requirements.txt ./
-RUN pip install -r requirements.txt --no-cache-dir
-
 # add app
-COPY src /src
+COPY . /src
 
 # set working directory
 WORKDIR /src
+
+# install app dependencies
+RUN pip install -r requirements.txt --no-cache-dir
 
 CMD ["./docker-entrypoint.sh"]
 
