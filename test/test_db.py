@@ -1,16 +1,18 @@
 import os
 
 import backoff
-from psycopg.errors import UndefinedTable
-from psycopg.rows import dict_row
 import pytest
 import requests
 import requests.exceptions
+from psycopg.errors import UndefinedTable
+from psycopg.rows import dict_row
 
 from src.init_db import get_db_connection
 
 
-@backoff.on_exception(backoff.constant, requests.exceptions.ConnectionError, max_tries=10)
+@backoff.on_exception(
+    backoff.constant, requests.exceptions.ConnectionError, max_tries=10
+)
 def wait_for_webserver():
     response = requests.get("http://webserver/health").text
     assert response == "OK"
