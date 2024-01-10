@@ -30,11 +30,15 @@ test:
 		--renew-anon-volumes \
 		--exit-code-from test
 
-lint: FIX := --fix
-lint: check-lint
+lint:
+	docker compose -f docker-compose.lint.yml run \
+		--env CHECK_ONLY=$(CHECK_ONLY) \
+		--rm \
+		lint
 
-check-lint:
-	echo 'TODO'
+
+check-lint: CHECK_ONLY ?= true
+check-lint: lint
 
 .PHONY: build check-lint clean lint run test
 
