@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  lint:
+    build: ./lint
+    command: [ "/src", "/test" ]
+    volumes:
+      - "${PWD}/src:/src"
+      - "${PWD}/test:/test"
