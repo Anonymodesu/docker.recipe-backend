@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ -n "${INIT_RECIPES_CSV}" ];
 then
     echo "Initialising database with ${INIT_RECIPES_CSV}."

@@ -12,7 +12,7 @@ build:
 		--no-cache \
 		-t $(DOCKER_IMAGE_FULL) \
 		-t $(DOCKER_IMAGE_LATEST) \
-		.
+		./src
 
 run:
 	DOCKER_IMAGE=$(DOCKER_IMAGE_FULL) \
