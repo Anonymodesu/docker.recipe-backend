@@ -4,20 +4,9 @@ import csv
 import logging
 import os
 
-import backoff
 import psycopg
 
-
-@backoff.on_exception(backoff.constant, psycopg.OperationalError, max_tries=20)
-def get_db_connection(
-    postgres_host: str,
-    database: str,
-    username: str,
-    password: str,
-):
-    return psycopg.connect(
-        host=postgres_host, dbname=database, user=username, password=password
-    )
+from util import get_db_connection
 
 
 def generate_table_values(csv_file: str):
@@ -89,16 +78,12 @@ def create_tables(
         )
 
 
-def init_db(
-    csv_file: str, postgres_host: str, database: str, username: str, password: str
-):
+def init_db(csv_file: str):
     try:
-        db_connection = get_db_connection(postgres_host, database, username, password)
-        logging.info(f"Successfully connected to {postgres_host}")
+        db_connection = get_db_connection()
+        logging.info("Successfully connected to postgres.")
     except psycopg.OperationalError:
-        logging.error(
-            f"Failed to connect to {postgres_host}. Database initialisation failed."
-        )
+        logging.error("Failed to connect to postgres. Database initialisation failed.")
         return
 
     ingredient_id_map, recipe_id_map, ingredient_recipe_pairs = generate_table_values(
@@ -116,9 +101,4 @@ if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
 
     csv_file = os.environ["INIT_RECIPES_CSV"]
-    postgres_host = os.environ["POSTGRES_HOST"]
-    database = os.environ["POSTGRES_DB"]
-    username = os.environ["POSTGRES_USER"]
-    password = os.environ["POSTGRES_PASSWORD"]
-
-    init_db(csv_file, postgres_host, database, username, password)
+    init_db(csv_file)
