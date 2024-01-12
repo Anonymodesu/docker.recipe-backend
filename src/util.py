@@ -23,3 +23,13 @@ def get_recipes():
         records = [row["name"] for row in cur.fetchall()]
 
     return records
+
+
+def get_ingredients():
+    conn = get_db_connection()
+
+    with conn, conn.cursor(row_factory=dict_row) as cur:
+        cur.execute("SELECT name FROM ingredients")
+        records = [row["name"] for row in cur.fetchall()]
+
+    return records

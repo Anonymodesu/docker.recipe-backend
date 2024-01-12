@@ -45,3 +45,9 @@ def test_recipes(wait_for_services):
     actual_recipes = requests.get("http://webserver/recipes").json()
     assert len(actual_recipes) == 25
     assert {"Pad Thai", "Burger", "Corn Flakes Chilaquiles"} <= set(actual_recipes)
+
+
+def test_ingredients(wait_for_services):
+    actual_ingredients = requests.get("http://webserver/ingredients").json()
+    assert len(actual_ingredients) == 78
+    assert {"Soy Sauce", "Aioli", "Yoghurt"} <= set(actual_ingredients)
