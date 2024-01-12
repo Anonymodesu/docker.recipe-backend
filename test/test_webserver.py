@@ -41,5 +41,7 @@ def wait_for_services():
     wait_for_webserver()
 
 
-def test_foo(wait_for_services):
-    pass
+def test_recipes(wait_for_services):
+    actual_recipes = requests.get("http://webserver/recipes").json()
+    assert len(actual_recipes) == 25
+    assert {"Pad Thai", "Burger", "Corn Flakes Chilaquiles"} <= set(actual_recipes)
