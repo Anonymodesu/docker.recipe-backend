@@ -32,7 +32,6 @@ test:
 
 lint:
 	docker compose -f docker-compose.lint.yml run \
-		--user $(USER) \
 		--env CHECK_ONLY=$(CHECK_ONLY) \
 		--rm \
 		lint
