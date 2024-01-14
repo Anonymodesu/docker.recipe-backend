@@ -15,11 +15,32 @@ def get_db_connection():
     )
 
 
-def get_recipes():
+def get_all_recipes():
     conn = get_db_connection()
 
     with conn, conn.cursor(row_factory=dict_row) as cur:
         cur.execute("SELECT name FROM recipes")
+        records = [row["name"] for row in cur.fetchall()]
+
+    return records
+
+
+def get_recipes(ingredient):
+    conn = get_db_connection()
+
+    with conn, conn.cursor(row_factory=dict_row) as cur:
+        cur.execute(
+            """
+            SELECT recipes.name
+            FROM recipes
+                JOIN ingredient_recipe_map
+                    ON recipes.id = ingredient_recipe_map.recipe_id
+                JOIN ingredients
+                    ON ingredient_recipe_map.ingredient_id = ingredients.id
+            WHERE LOWER(ingredients.name) = LOWER(%s)
+        """,
+            (ingredient,),
+        )
         records = [row["name"] for row in cur.fetchall()]
 
     return records

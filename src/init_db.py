@@ -6,7 +6,7 @@ import os
 
 import psycopg
 
-from util import get_db_connection
+from database import get_db_connection
 
 
 def generate_table_values(csv_file: str):

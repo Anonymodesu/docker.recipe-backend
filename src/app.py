@@ -1,6 +1,6 @@
 from flask import Flask
 
-from util import get_ingredients, get_recipes
+from database import get_all_recipes, get_ingredients, get_recipes
 
 app = Flask(__name__)
 
@@ -11,8 +11,13 @@ def healthcheck():
 
 
 @app.route("/recipes")
-def recipes():
-    return get_recipes()
+def all_recipes():
+    return get_all_recipes()
+
+
+@app.route("/recipes/<ingredient>")
+def recipes(ingredient):
+    return get_recipes(ingredient)
 
 
 @app.route("/ingredients")
