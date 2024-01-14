@@ -1,6 +1,7 @@
 from flask import Flask
 
-from database import get_all_recipes, get_ingredients, get_recipes
+from database import (get_all_ingredients, get_all_recipes, get_ingredients,
+                      get_recipes)
 
 app = Flask(__name__)
 
@@ -21,5 +22,10 @@ def recipes(ingredient):
 
 
 @app.route("/ingredients")
-def ingredients():
-    return get_ingredients()
+def all_ingredients():
+    return get_all_ingredients()
+
+
+@app.route("/ingredients/<recipe>")
+def ingredients(recipe):
+    return get_ingredients(recipe)
