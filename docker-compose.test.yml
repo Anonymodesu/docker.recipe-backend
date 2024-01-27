@@ -12,6 +12,8 @@ services:
       PYTHONPATH: /
     networks:
       - recipe-backend
+    depends_on:
+      - webserver
 
 networks:
   recipe-backend:
